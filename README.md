@@ -37,72 +37,79 @@ End the program and close the output video window by pressing 'q'.
 
 ## i) Write the frame as JPG file
 import cv2
-videoCaptureObject = cv2.VideoCapture(0)
-while (True):
-    ret,frame = videoCaptureObject.read()
-    cv2.imwrite("jai.jpeg",frame)
-    result = False
-videoCaptureObject.release()
-cv2.destroyAllWindows()
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
+import time
+
+cap = cv2.VideoCapture(0)
+ret, frame = cap.read()
+if ret:
+    cv2.imwrite("captured_frame.jpg", frame)
+cap.release()
+
+captured_image = cv2.imread('captured_frame.jpg')
+
+plt.imshow(captured_image[:,:,::-1])
+plt.title('Captured Frame')
+plt.axis('off')
+plt.show()
 
 
 
 ## ii) Display the video
-import cv2
-videoCaptureObject = cv2.VideoCapture(0)
-while(True):
-    ret,frame = videoCaptureObject.read()
-    cv2.imshow('myimage',frame)
-    if cv2.waitKey(1) == ord('q'):
+cap = cv2.VideoCapture(0)
+
+for i in range(50):
+    ret, frame = cap.read()
+    if not ret:
         break
-videoCaptureObject.release()
-cv2.destroyAllWindows()
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    clear_output(wait=True)
+    plt.imshow(frame_rgb)
+    plt.axis('off')
+    plt.show()
+    time.sleep(0.05)
+
+cap.release()
 
 
 
 ## iii) Display the video by resizing the window
-import cv2
-import numpy as np
 cap = cv2.VideoCapture(0)
-while True:
-    ret, frame = cap.read() 
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    image = np.zeros(frame.shape, np.uint8) 
-    smaller_frame = cv2.resize(frame, (0,0), fx = 0.5, fy=0.5) 
-    image[:height//2, :width//2] = smaller_frame
-    image[height//2:, :width//2] = smaller_frame
-    image[:height//2, width//2:] = smaller_frame 
-    image [height//2:, width//2:] = smaller_frame
-    cv2.imshow('myimage', image)
-    if cv2.waitKey(1) == ord('q'):
+
+for i in range(50):
+    ret, frame = cap.read()
+    if not ret:
         break
+    resized_frame = cv2.resize(frame, (100, 150))  # Resize to 320x240
+    frame_rgb = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
+    clear_output(wait=True)
+    plt.imshow(frame_rgb)
+    plt.axis('off')
+    plt.show()
+    time.sleep(0.05)
+
 cap.release()
-cv2.destroyAllWindows()
 
 
 
 
 ## iv) Rotate and display the video
-import cv2
-import numpy as np
 cap = cv2.VideoCapture(0)
-while True:
-    ret, frame = cap.read() 
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    image = np.zeros(frame.shape, np.uint8) 
-    smaller_frame = cv2.resize(frame, (0,0), fx = 0.5, fy=0.5) 
-    image[:height//2, :width//2] = cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[height//2:, :width//2] = cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[:height//2, width//2:] = smaller_frame 
-    image [height//2:, width//2:] = smaller_frame
-    cv2.imshow('myimage', image)
-    if cv2.waitKey(1) == ord('q'):
-        break
-cap.release()
-cv2.destroyAllWindows()
 
+for i in range(50):
+    ret, frame = cap.read()
+    if not ret:
+        break
+    rotated_frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    frame_rgb = cv2.cvtColor(rotated_frame, cv2.COLOR_BGR2RGB)
+    clear_output(wait=True)
+    plt.imshow(frame_rgb)
+    plt.axis('off')
+    plt.show()
+    time.sleep(0.05)
+
+cap.release()
 
 
 
@@ -114,7 +121,8 @@ cv2.destroyAllWindows()
 ## OUTPUT:
 
 ### i) Write the frame as JPG image
-![(https://github.com/mohan8900/Image_Acqusition-_using_Web_Camera/blob/main/306834696-5c319921-b55e-4ec5-a6f2-f2294b0a8e72.png)](https://github.com/mohan8900/Image_Acqusition-_using_Web_Camera/blob/main/306834696-5c319921-b55e-4ec5-a6f2-f2294b0a8e72.png)
+<img width="512" height="411" alt="image" src="https://github.com/user-attachments/assets/f6d7f628-58c6-47e6-b5af-c3572f377ec0" />
+
 
 
 
@@ -123,7 +131,7 @@ cv2.destroyAllWindows()
 
 
 ### ii) Display the video
-![Screenshot 2024-02-21 213311](https://github.com/Jaiganesh235/Image_Acqusition-_using_Web_Camera/assets/118657189/d29f2b17-edf9-4bbe-906e-b6e5a9424d12)
+<img width="512" height="389" alt="image" src="https://github.com/user-attachments/assets/bdc658aa-1214-4dca-b8ad-337fb2da44f8" />
 
 
 </br>
@@ -131,7 +139,7 @@ cv2.destroyAllWindows()
 
 
 ### iii) Display the video by resizing the window
-![Screenshot 2024-02-21 213416](https://github.com/Jaiganesh235/Image_Acqusition-_using_Web_Camera/assets/118657189/49686dd1-a328-4909-a5f1-ddf0567ecff6)
+<img width="266" height="389" alt="image" src="https://github.com/user-attachments/assets/918c6f23-d55b-4d4f-8368-8ced3cf666f5" />
 
 
 
@@ -141,8 +149,8 @@ cv2.destroyAllWindows()
 
 
 ### iv) Rotate and display the video
-![Screenshot 2024-02-21 213518](https://github.com/Jaiganesh235/Image_Acqusition-_using_Web_Camera/assets/118657189/2fe12628-6724-41d5-9e06-15bbfa8eacb2)
 
+<img width="297" height="389" alt="image" src="https://github.com/user-attachments/assets/0b17d8a6-e5f6-430a-8c87-4bdf06588b20" />
 
 
 </br>
